@@ -1,0 +1,13 @@
+---
+title: "Jaqueline Vallejo Hinojosa"
+image: "images/profile_pic.JPG"
+about:
+    template: jolla
+    links: 
+      - icon: envelope
+        href: mailto:j1vallej@ucsd.edu
+      - icon: linkedin
+        href: https://www.linkedin.com/in/jaquelinevh
+---
+
+Welcome to my website!
