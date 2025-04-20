@@ -13,6 +13,10 @@ Dean Karlan at Yale and John List at the University of Chicago conducted a field
 _to do: expand on the description of the experiment._
 
 ```{Python}
+import pandas as pd
+
+karlan_list_2007 = pd.read_stata('karlan_list_2007.dta')
+karlan_list_2007.head()
 
 ```
 
