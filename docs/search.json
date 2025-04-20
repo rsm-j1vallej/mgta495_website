@@ -46,7 +46,7 @@
     "href": "blog.html",
     "title": "My Projects",
     "section": "",
-    "text": "This is Project 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis is Project 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "This is Project 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis is Project 3\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis is Project 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog/project2/index.html",
@@ -68,5 +68,12 @@
     "title": "This is Project 2",
     "section": "",
     "text": "I analyzed the data"
+  },
+  {
+    "objectID": "blog/project3/index.html",
+    "href": "blog/project3/index.html",
+    "title": "This is Project 3",
+    "section": "",
+    "text": "This is Project 3"
   }
 ]
