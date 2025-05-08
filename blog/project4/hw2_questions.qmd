@@ -17,7 +17,8 @@ However, Blueprinty has collected data on 1,500 mature (non-startup) engineering
 
 ### Data
 
-```{python}
+```{python} 
+
 import pandas as pd 
 
 blueprinty = pd.read_csv('blueprinty.csv')
@@ -90,7 +91,7 @@ $$
 = e^{-n\lambda} \lambda^{\sum_{i=1}^n Y_i} \prod_{i=1}^n \frac{1}{Y_i!}
 $$
 
-```{python}
+```{python} 
 import numpy as np
 from scipy.special import gammaln
 
