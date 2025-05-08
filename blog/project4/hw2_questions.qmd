@@ -331,6 +331,7 @@ poisson_model = sm.GLM(y, X, family=sm.families.Poisson()).fit()
 
 # Display results
 print(poisson_model.summary())
+
 ```
 
 The model shows that listings with **more bedrooms** receive **more reviews**, while those with **more bathrooms** receive fewer. Specifically, each extra bedroom is linked to about an **7% increase** in reviews, while each extra bathroom is linked to about a **12% decrease**. **Cleanliness ratings** have a strong positive effect: higher cleanliness scores lead to significantly more reviews. In contrast, higher **location** and **value** scores are linked to **fewer reviews**. Listings with **instant booking** enabled get **about 33% more reviews**, suggesting guests prefer the convenience. Compared to entire homes, **shared rooms** get **about 25% fewer reviews**, while **private rooms** get slightly fewer reviews. These results show that cleanliness, convenience, and room type are key drivers of variation in review counts across listings.
