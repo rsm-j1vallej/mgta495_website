@@ -26,7 +26,7 @@
         "\n",
         "### Data\n"
       ],
-      "id": "7fb8df50"
+      "id": "b4b2940a"
     },
     {
       "cell_type": "code",
@@ -49,7 +49,7 @@
         "plt.ylabel('Count')\n",
         "plt.show()"
       ],
-      "id": "05cf7de1",
+      "id": "d4fe0381",
       "execution_count": null,
       "outputs": []
     },
@@ -61,7 +61,7 @@
         "\n",
         "Blueprinty customers are not selected at random. It may be important to account for systematic differences in the age and regional location of customers vs non-customers.\n"
       ],
-      "id": "37267337"
+      "id": "e463f345"
     },
     {
       "cell_type": "code",
@@ -79,7 +79,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "314a88b7",
+      "id": "79bc02d3",
       "execution_count": null,
       "outputs": []
     },
@@ -89,7 +89,7 @@
       "source": [
         "* The chart shows that the Northeast has the highest overall customer count and a relatively balanced customer-to-non-customer ratio, while all other regions are dominated by non-customers. \n"
       ],
-      "id": "cdc944b7"
+      "id": "8297da05"
     },
     {
       "cell_type": "code",
@@ -104,7 +104,7 @@
         "plt.ylabel('Age')\n",
         "plt.show()"
       ],
-      "id": "3e8d1349",
+      "id": "87b54c45",
       "execution_count": null,
       "outputs": []
     },
@@ -136,7 +136,7 @@
         "= e^{-n\\lambda} \\lambda^{\\sum_{i=1}^n Y_i} \\prod_{i=1}^n \\frac{1}{Y_i!}\n",
         "$$\n"
       ],
-      "id": "e1d2c1be"
+      "id": "d312dac3"
     },
     {
       "cell_type": "code",
@@ -155,7 +155,7 @@
         "    loglik = np.sum(-lam + Y * np.log(lam) - gammaln(Y + 1))\n",
         "    return loglik"
       ],
-      "id": "511c42b1",
+      "id": "e91e66e6",
       "execution_count": null,
       "outputs": []
     },
@@ -179,7 +179,7 @@
         "plt.tight_layout()\n",
         "plt.show()"
       ],
-      "id": "f41ff226",
+      "id": "8de254a4",
       "execution_count": null,
       "outputs": []
     },
@@ -190,7 +190,7 @@
         "lambda_mle = Y.mean()\n",
         "print(\"MLE of lambda (λ̂):\", lambda_mle)"
       ],
-      "id": "ec4ee8d8",
+      "id": "92517f47",
       "execution_count": null,
       "outputs": []
     },
@@ -215,7 +215,7 @@
         "\n",
         "print(\"MLE of lambda (λ̂) from optimization:\", lambda_mle)"
       ],
-      "id": "73453116",
+      "id": "549db136",
       "execution_count": null,
       "outputs": []
     },
@@ -227,7 +227,7 @@
         "\n",
         "Next, we extend our simple Poisson model to a Poisson Regression Model such that $Y_i = \\text{Poisson}(\\lambda_i)$ where $\\lambda_i = \\exp(X_i'\\beta)$. The interpretation is that the success rate of patent awards is not constant across all firms ($\\lambda$) but rather is a function of firm characteristics $X_i$. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.\n"
       ],
-      "id": "65f35c2e"
+      "id": "4c9e425f"
     },
     {
       "cell_type": "code",
@@ -242,7 +242,7 @@
         "    loglik = np.sum(-lam + Y * eta - gammaln(Y + 1))\n",
         "    return -loglik"
       ],
-      "id": "4008af5d",
+      "id": "42e1effc",
       "execution_count": null,
       "outputs": []
     },
@@ -295,7 +295,7 @@
         "\n",
         "print(results_df)"
       ],
-      "id": "2ca5f521",
+      "id": "b6dea519",
       "execution_count": null,
       "outputs": []
     },
@@ -321,7 +321,7 @@
         "\n",
         "print(comparison_df)"
       ],
-      "id": "80909447",
+      "id": "c1a2e74d",
       "execution_count": null,
       "outputs": []
     },
@@ -332,7 +332,7 @@
         "## Results\n",
         "The Poisson regression model indicates that age has a significant negative effect on patent counts, with each standard deviation increase in age associated with a 5.6% decrease in expected patents. The negative and significant age-squared term suggests a concave relationship, indicating that patent activity peaks and then declines with age. Customers are estimated to file 23% more patents than non-customers, a statistically significant difference. Regional differences are small and not statistically significant, suggesting that location has little effect on patent counts after accounting for other variables.\n"
       ],
-      "id": "fe9ba720"
+      "id": "1ff805e3"
     },
     {
       "cell_type": "code",
@@ -355,7 +355,7 @@
         "average_diff = np.mean(patent_diff)\n",
         "print(\"Average increase in predicted patents due to Blueprinty's software:\", average_diff)"
       ],
-      "id": "32c8db41",
+      "id": "65686721",
       "execution_count": null,
       "outputs": []
     },
@@ -391,7 +391,7 @@
         "\n",
         "::::\n"
       ],
-      "id": "3e1f7e05"
+      "id": "cc03fad8"
     },
     {
       "cell_type": "code",
@@ -438,7 +438,7 @@
         "# Display results\n",
         "print(poisson_model.summary())"
       ],
-      "id": "dceacf1b",
+      "id": "7d8cc68f",
       "execution_count": null,
       "outputs": []
     },
@@ -448,7 +448,7 @@
       "source": [
         "The model shows that listings with **more bedrooms** receive **more reviews**, while those with **more bathrooms** receive fewer. Specifically, each extra bedroom is linked to about an **7% increase** in reviews, while each extra bathroom is linked to about a **12% decrease**. **Cleanliness ratings** have a strong positive effect: higher cleanliness scores lead to significantly more reviews. In contrast, higher **location** and **value** scores are linked to **fewer reviews**. Listings with **instant booking** enabled get **about 33% more reviews**, suggesting guests prefer the convenience. Compared to entire homes, **shared rooms** get **about 25% fewer reviews**, while **private rooms** get slightly fewer reviews. These results show that cleanliness, convenience, and room type are key drivers of variation in review counts across listings.\n"
       ],
-      "id": "56d5ef29"
+      "id": "4b92461b"
     }
   ],
   "metadata": {

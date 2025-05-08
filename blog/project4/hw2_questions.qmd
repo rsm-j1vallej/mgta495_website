@@ -37,6 +37,7 @@ plt.ylabel('Count')
 plt.show()
 
 ```
+
 * The histogram shows that non-customers consistently outnumber customers across patent counts, with most entities, regardless of customer status, tend to hold 3–4 patents.
 
 Blueprinty customers are not selected at random. It may be important to account for systematic differences in the age and regional location of customers vs non-customers.
@@ -54,6 +55,7 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 ```
+
 * The chart shows that the Northeast has the highest overall customer count and a relatively balanced customer-to-non-customer ratio, while all other regions are dominated by non-customers. 
 
 
@@ -67,6 +69,7 @@ plt.xlabel('Customer Status')
 plt.ylabel('Age')
 plt.show()
 ```
+
 * The age distribution for customers and non-customers is similar, with both groups centered around the mid-to-late 20s, though customers show slightly higher age variability and a marginally higher median
 
 
