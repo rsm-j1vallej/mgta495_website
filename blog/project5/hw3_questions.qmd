@@ -143,7 +143,6 @@ conjoint_data$ads <- as.integer(conjoint_data$ad == "Yes")
 # Create a unique identifier for each choice set
 conjoint_data$choice_set <- paste0(conjoint_data$resp, "-", conjoint_data$task)
 
-# Order the dataset for easier handling later
 conjoint_data <- conjoint_data[order(conjoint_data$resp, conjoint_data$task), ]
 
 head(conjoint_data)
