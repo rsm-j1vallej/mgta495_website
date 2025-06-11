@@ -1,0 +1,185 @@
+---
+title: "ML in Action - Clustering & Prediction"
+author: "Jaqueline Vallejo Hinojosa"
+date: today
+---
+
+
+## 1a. K-Means
+In this section, we apply K-Means clustering to the Palmer Penguins dataset using two features: **bill length** and **flipper length**. We implement the K-Means algorithm manually and evaluate clustering performance using **Within-Cluster Sum of Squares (WCSS)** and **Silhouette Score** across different values of K.
+
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import silhouette_score
+
+# Load and clean data
+penguins = pd.read_csv('palmer_penguins.csv')
+penguins = penguins.dropna(subset=['bill_length_mm', 'flipper_length_mm'])
+X = penguins[['bill_length_mm', 'flipper_length_mm']].values
+
+# Standardize features
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+# Define K-Means functions
+def initialize_centroids(X, k):
+    np.random.seed(42)
+    indices = np.random.choice(len(X), size=k, replace=False)
+    return X[indices]
+
+def assign_clusters(X, centroids):
+    distances = np.linalg.norm(X[:, np.newaxis] - centroids, axis=2)
+    return np.argmin(distances, axis=1)
+
+def update_centroids(X, labels, k):
+    return np.array([X[labels == i].mean(axis=0) for i in range(k)])
+
+def compute_wcss(X, labels, centroids):
+    return sum(np.sum((X[labels == i] - centroids[i])**2) for i in range(len(centroids)))
+
+def kmeans(X, k, max_iter=100):
+    centroids = initialize_centroids(X, k)
+    for _ in range(max_iter):
+        labels = assign_clusters(X, centroids)
+        new_centroids = update_centroids(X, labels, k)
+        if np.allclose(centroids, new_centroids):
+            break
+        centroids = new_centroids
+    return labels, centroids
+```
+
+```{python}
+# Visualize clusters for K = 3
+labels, centroids = kmeans(X, 3)
+
+plt.figure(figsize=(8, 6))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', alpha=0.6)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', marker='X', s=200)
+plt.xlabel("Bill Length (standardized)")
+plt.ylabel("Flipper Length (standardized)")
+plt.title("K-Means Clustering (K=3)")
+plt.show()
+```
+
+```{python}
+# Evaluate different values of K using WCSS and Silhouette Score
+k_range = range(2, 8)
+wcss = []
+sil_scores = []
+
+for k in k_range:
+    labels, centroids = kmeans(X, k)
+    wcss.append(compute_wcss(X, labels, centroids))
+    sil_scores.append(silhouette_score(X, labels))
+
+# Plot results
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.plot(k_range, wcss, marker='o')
+plt.title("Within-Cluster Sum of Squares")
+plt.xlabel("Number of Clusters")
+plt.ylabel("WCSS")
+
+plt.subplot(1, 2, 2)
+plt.plot(k_range, sil_scores, marker='o', color='orange')
+plt.title("Silhouette Score")
+plt.xlabel("Number of Clusters")
+plt.ylabel("Score")
+
+plt.tight_layout()
+plt.show()
+
+# Report optimal K
+optimal_k = k_range[np.argmax(sil_scores)]
+print(f"Best number of clusters by Silhouette Score: {optimal_k}")
+
+```
+
+The plots above suggest the optimal number of clusters using both the elbow method (WCSS) and Silhouette Score. Silhouette peaks at **K = 2**, indicating the best tradeoff between compactness and separation of clusters.
+
+
+## 2a. K Nearest Neighbors
+In this section, we generate a synthetic classification dataset with a sinusoidal decision boundary and implement K-Nearest Neighbors (KNN) from scratch. We then evaluate the classification accuracy for `k` values from 1 to 30 and determine the optimal number of neighbors.
+
+```{python}
+# gen data -----
+np.random.seed(42)
+n = 100
+x1 = np.random.uniform(-3, 3, n)
+x2 = np.random.uniform(-3, 3, n)
+
+#define a wiggly boundary
+boundary = np.sin(4 * x1) + x1
+y = (x2 > boundary).astype(int) 
+
+train = pd.DataFrame({"x1": x1, "x2": x2, "y": y}) 
+
+# Test set
+np.random.seed(123)
+x1_test = np.random.uniform(-3, 3, n)
+x2_test = np.random.uniform(-3, 3, n)
+boundary_test = np.sin(4 * x1_test) + x1_test
+y_test = (x2_test > boundary_test).astype(int)
+test = pd.DataFrame({"x1": x1_test, "x2": x2_test, "y": y_test})
+
+# Visualize training data
+plt.figure(figsize=(8, 6))
+sns.scatterplot(data=train, x='x1', y='x2', hue='y', palette='Set1')
+plt.title("Training Data with Sinusoidal Boundary")
+plt.show()
+```
+
+```{python}
+# Implement KNN from Scratch
+def euclidean(p1, p2):
+    return np.sqrt(np.sum((p1 - p2) ** 2))
+
+def knn_predict(train_X, train_y, test_X, k):
+    predictions = []
+    for x in test_X:
+        distances = [euclidean(x, point) for point in train_X]
+        neighbors_idx = np.argsort(distances)[:k]
+        neighbor_votes = train_y[neighbors_idx]
+        pred = np.bincount(neighbor_votes).argmax()
+        predictions.append(pred)
+    return np.array(predictions)
+
+# Evaluate Accuracy over k = 1 to 30
+train_X = train[["x1", "x2"]].values
+train_y = train["y"].values
+test_X = test[["x1", "x2"]].values
+test_y = test["y"].values
+
+accuracies = []
+for k in range(1, 31):
+    preds = knn_predict(train_X, train_y, test_X, k)
+    acc = np.mean(preds == test_y)
+    accuracies.append(acc)
+
+# Plot accuracy vs k
+optimal_k = np.argmax(accuracies) + 1
+plt.figure(figsize=(8, 6))
+plt.plot(range(1, 31), accuracies, marker='o')
+plt.axvline(optimal_k, color='red', linestyle='--', label=f"Optimal k = {optimal_k}")
+plt.title("KNN Accuracy on Test Data")
+plt.xlabel("k")
+plt.ylabel("Accuracy")
+plt.legend()
+plt.grid()
+plt.show()
+
+print(f"Best k = {optimal_k} with accuracy = {accuracies[optimal_k-1]:.2f}")
+```
+
+In the supervised learning portion, the **K-Nearest Neighbors** model was applied to a synthetic dataset with a non-linear decision boundary. Manually coding the distance calculations and voting mechanism clarified how KNN works on a point-by-point basis. We visualized how accuracy changes as the number of neighbors (`k`) increases, identifying the optimal value that balances underfitting and overfitting.
+
+While KNN is simple and intuitive, it can be computationally costly and sensitive to irrelevant features, especially in higher dimensions. Still, it proved effective for this non-linear classification task.
+
+
+## Conclusion
+This project reinforces the importance of understanding machine learning algorithms beyond black-box implementations. Building both K-Means and KNN from scratch deepens the understanding of how these models operate and what drives their performance. Also, highlights the value of visualizing data and model behavior when interpreting results and tuning parameters.
